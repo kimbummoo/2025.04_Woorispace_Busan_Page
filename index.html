@@ -81,20 +81,28 @@
       // 파라미터 없으면 기본 ko로 설정
       var urlParams = new URLSearchParams(window.location.search);
       var lang = urlParams.get('lang') || 'ko'; // 기본값은 한국어
+      setLanguage(lang);
 
       // 언어 드랍다운 초기화
       document.getElementById('languageDropdown').addEventListener('change', function() {
         var selectedLanguage = this.value;
+        setLanguage(selectedLanguage);
+      });
+
+      function setLanguage(newLang)
+      {
         // 언어 변경 로직을 여기에 추가
-        console.log("Selected language: " + selectedLanguage);
+        console.log("Selected language: " + newLang);
         // URL 파라미터에 언어 설정 추가
         var url = new URL(window.location.href);
-        url.searchParams.set('lang', selectedLanguage);
+        url.searchParams.set('lang', newLang);
         window.history.pushState({}, '', url.toString());
 
         // 언어설정에 따른 UI 업데이트
+
+        // 언어설정에 따른 UI 업데이트
         var guideText = document.getElementById('guideText');
-        switch (selectedLanguage) {
+        switch (newLang) {
           case 'ko':
             guideText.textContent = '이 증강현실 경험은 기기의 카메라와 모션 센서 권한을 필요로 합니다.';
             break;
@@ -112,7 +120,7 @@
         }
 
         var startARButton = document.getElementById('startARButton');
-        switch (selectedLanguage) {
+        switch (newLang) {
           case 'ko':
             startARButton.textContent = '확인하기';
             break;
@@ -130,7 +138,7 @@
         }
 
         var screenshotHint = document.getElementById('screenshotHint');
-        switch (selectedLanguage) {
+        switch (newLang) {
           case 'ko':
             screenshotHint.textContent = '스크린샷을 꾸욱 누르면 이미지 다운로드 가능';
             break;
@@ -146,7 +154,7 @@
           default:
             screenshotHint.textContent = '스크린샷을 꾸욱 누르면 이미지 다운로드 가능';
         }
-      });
+      }
 
       // Disable double-tap to zoom
       document.addEventListener('touchstart', function (event) {
