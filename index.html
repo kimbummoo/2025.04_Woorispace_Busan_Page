@@ -12,6 +12,7 @@
 
     <style>
       body { font-family: 'Roboto', sans-serif; letter-spacing: 0.05em; font-size: max(2vw, 2vh); color:white}
+      select { height: max(5vw, 5vh); font-size: max(2vw, 2vh); font-weight: bold; border-radius: max(1.5vw, 1.5vh); padding-left: max(1vw, 1vh); padding-right: max(1vw, 1vh); border: 0; color: #62a7fe; background: #3d3d3d; transition:0.1s; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;}
       button {height:max(5vw, 5vh);font-size: max(2vw, 2vh);font-weight: bold; border-radius: max(1.5vw, 1.5vh); padding-left: max(5vw, 5vh); padding-right: max(5vw, 5vh); border: 0; color: #62a7fe; background: #3d3d3d; transition:0.1s;user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
       button:hover { filter: brightness(1.15)}
       button:active { transform: scale(0.95); filter: brightness(0.85)}
@@ -25,7 +26,16 @@
     <div id="startARDiv" class="ctaDiv" style="background: #2f2e32">
       <select id="chooseCamSel" style="visibility: hidden; background: transparent; border: .05vh solid white; border-radius: max(0.5vw, 0.5vh); color:white; font-size: max(1.5vw, 1.5vh); position: absolute; bottom: 80px" 
         onchange="SelectCam()"></select>
-      <p style="text-align: center; width:min(60vw, 60vh);">이 증강현실 경험은 기기의 카메라와 모션 센서 권한을 필요로 합니다.</p>
+      <p id="guideText" style="text-align: center; width:min(60vw, 60vh);">이 증강현실 경험은 기기의 카메라와 모션 센서 권한을 필요로 합니다.</p>
+      <!-- 언어 설정을 위한 드랍다운 추가해줘 -->
+      <!-- 한국어, 영어, 일본어, 중국어 -->
+      <select id="languageDropdown">
+        <option value="ko">한국어</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+        <option value="zh">中文</option>
+      </select>
+      <br>
       <button id="startARButton" onclick="StartAR()" style="visibility: hidden">확인하기</button>
       <br><br><br>
     </div>
@@ -39,7 +49,7 @@
                 </svg>
             </button>
             <!--<p style="font-size: max(1vw, 1vh); color: #fff6">Press and hold to save or share this screenshot</p>-->
-            <p style="font-size: max(2vw, 2vh); color: rgb(255, 255, 255); line-height: 1">스크린샷을 꾸욱 누르면 이미지 다운로드 가능</p>
+            <p id="screenshotHint" style="font-size: max(2vw, 2vh); color: rgb(255, 255, 255); line-height: 1">스크린샷을 꾸욱 누르면 이미지 다운로드 가능</p>
         </div>
     </div>
     <div id="confirmUrlDiv" style="visibility: hidden; opacity: 0;" class="ctaDiv">
@@ -68,6 +78,76 @@
     <script src="arcamera.js" type="text/javascript"></script>
     <script src="wtracker.js" type="text/javascript"></script>
     <script>
+      // 파라미터 없으면 기본 ko로 설정
+      var urlParams = new URLSearchParams(window.location.search);
+      var lang = urlParams.get('lang') || 'ko'; // 기본값은 한국어
+
+      // 언어 드랍다운 초기화
+      document.getElementById('languageDropdown').addEventListener('change', function() {
+        var selectedLanguage = this.value;
+        // 언어 변경 로직을 여기에 추가
+        console.log("Selected language: " + selectedLanguage);
+        // URL 파라미터에 언어 설정 추가
+        var url = new URL(window.location.href);
+        url.searchParams.set('lang', selectedLanguage);
+        window.history.pushState({}, '', url.toString());
+
+        // 언어설정에 따른 UI 업데이트
+        var guideText = document.getElementById('guideText');
+        switch (selectedLanguage) {
+          case 'ko':
+            guideText.textContent = '이 증강현실 경험은 기기의 카메라와 모션 센서 권한을 필요로 합니다.';
+            break;
+          case 'en':
+            guideText.textContent = 'This AR experience requires camera and motion sensor permissions.';
+            break;
+          case 'ja':
+            guideText.textContent = 'このAR体験にはカメラとモーションセンサーの権限が必要です。';
+            break;
+          case 'zh':
+            guideText.textContent = '此增强现实体验需要相机和运动传感器权限。';
+            break;
+          default:
+            guideText.textContent = '이 증강현실 경험은 기기의 카메라와 모션 센서 권한을 필요로 합니다.';
+        }
+
+        var startARButton = document.getElementById('startARButton');
+        switch (selectedLanguage) {
+          case 'ko':
+            startARButton.textContent = '확인하기';
+            break;
+          case 'en':
+            startARButton.textContent = 'Start AR';
+            break;
+          case 'ja':
+            startARButton.textContent = 'ARを開始';
+            break;
+          case 'zh':
+            startARButton.textContent = '开始增强现实';
+            break;
+          default:
+            startARButton.textContent = '확인하기';
+        }
+
+        var screenshotHint = document.getElementById('screenshotHint');
+        switch (selectedLanguage) {
+          case 'ko':
+            screenshotHint.textContent = '스크린샷을 꾸욱 누르면 이미지 다운로드 가능';
+            break;
+          case 'en':
+            screenshotHint.textContent = 'Press and hold to save or share this screenshot';
+            break;
+          case 'ja':
+            screenshotHint.textContent = 'スクリーンショットを長押しして保存または共有できます';
+            break;
+          case 'zh':
+            screenshotHint.textContent = '长按屏幕截图以保存或分享';
+            break;
+          default:
+            screenshotHint.textContent = '스크린샷을 꾸욱 누르면 이미지 다운로드 가능';
+        }
+      });
+
       // Disable double-tap to zoom
       document.addEventListener('touchstart', function (event) {
         if (event.touches.length > 1) {
