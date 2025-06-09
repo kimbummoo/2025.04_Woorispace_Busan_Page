@@ -98,8 +98,13 @@
           .then(function(stream) {
             // 권한이 허용되면 스트림을 사용
             console.log("Camera permission granted");
-            // 스트림을 사용하지 않으려면 즉시 중지
-            stream.getTracks().forEach(track => track.stop());
+
+            // 1.5초 후에 AR 시작 버튼 보이기
+            setTimeout(() => {
+              // 스트림 중지
+              stream.getTracks().forEach(track => track.stop());
+              document.getElementById("startARButton").style.visibility = "visible";
+            }, 1500);
           })
           .catch(function(err) {
             // 권한이 거부되면 에러 처리
@@ -107,43 +112,6 @@
           });
       }
       requestCameraPermission();
-
-      // 다른 카메라가 켜져있는지 확인하는 로직
-      function checkOtherCameraUsage() {
-        navigator.mediaDevices.enumerateDevices()
-          .then(function(devices) {
-            var videoDevices = devices.filter(function(device) {
-              return device.kind === 'videoinput';
-            });
-
-            if (videoDevices.length > 1) {
-              console.warn("Multiple video devices found. Please ensure only one camera is in use.");
-              var errorGuide = document.getElementById('errorGuide');
-              errorGuide.style.visibility = 'visible';
-
-              switch (lang) {
-                case 'ko':
-                  errorGuide.textContent = '다른 카메라가 켜져있는지 확인해 주세요.';
-                  break;
-                case 'en':
-                  errorGuide.textContent = 'Please check if another camera is in use.';
-                  break;
-                case 'ja':
-                  errorGuide.textContent = '他のカメラがオンになっているか確認してください。';
-                  break;
-                case 'zh':
-                  errorGuide.textContent = '请检查是否有其他相机正在使用。';
-                  break;
-                default:
-                  errorGuide.textContent = '다른 카메라가 켜져있는지 확인해 주세요.';
-              }
-            }
-          })
-          .catch(function(err) {
-            console.error("Error enumerating devices:", err);
-          });
-      }
-      checkOtherCameraUsage();
 
       // 언어 드랍다운 초기화
       document.getElementById('languageDropdown').addEventListener('change', function() {
@@ -246,7 +214,7 @@
         }
 
         await LoadWebcams();
-        document.getElementById("startARButton").style.visibility = "visible";
+        // document.getElementById("startARButton").style.visibility = "visible";
 
         window.camPermissionsGranted = await IsCameraPermissionGranted();
         window.motionPermissionsGranted = await IsMotionSensorPermissionGranted();
