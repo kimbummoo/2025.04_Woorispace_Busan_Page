@@ -102,7 +102,7 @@
             setTimeout(() => {
               stream.getTracks().forEach(track => track.stop());
               document.getElementById("startARButton").style.visibility = "visible";
-            }, 3000);
+            }, 5000);
           })
           .catch(function(err) {
             // 권한이 거부되면 에러 처리
@@ -116,12 +116,12 @@
           .then(function(stream) {
             // 권한이 허용되면 스트림을 사용
             console.log("Camera permission granted");
-            stream.getTracks().forEach(track => track.stop());
 
             // 0.5초 후에 AR 시작 버튼 보이기
             setTimeout(() => {
+              stream.getTracks().forEach(track => track.stop());
               enableStartARButton();
-            }, 500);
+            }, 1000);
           })
           .catch(function(err) {
             // 권한이 거부되면 에러 처리
