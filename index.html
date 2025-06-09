@@ -120,7 +120,7 @@
               console.warn("Multiple video devices found. Please ensure only one camera is in use.");
               var errorGuide = document.getElementById('errorGuide');
               errorGuide.style.visibility = 'visible';
-              
+
               switch (lang) {
                 case 'ko':
                   errorGuide.textContent = '다른 카메라가 켜져있는지 확인해 주세요.';
@@ -143,6 +143,7 @@
             console.error("Error enumerating devices:", err);
           });
       }
+      checkOtherCameraUsage();
 
       // 언어 드랍다운 초기화
       document.getElementById('languageDropdown').addEventListener('change', function() {
