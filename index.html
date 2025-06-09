@@ -26,7 +26,7 @@
     <div id="startARDiv" class="ctaDiv" style="background: #2f2e32">
       <select id="chooseCamSel" style="visibility: hidden; background: transparent; border: .05vh solid white; border-radius: max(0.5vw, 0.5vh); color:white; font-size: max(1.5vw, 1.5vh); position: absolute; bottom: 80px" 
         onchange="SelectCam()"></select>
-      <p id="guideText" style="text-align: center; width:min(60vw, 60vh);">이 증강현실 경험은 기기의 카메라와<br>모션 센서 권한을 필요로 합니다.</p>
+      <p id="guideText" style="text-align: center; width:min(60vw, 60vh);">이 증강현실 경험은 기기의 카메라와 모션 센서 권한을 필요로 합니다.</p>
       <!-- 언어 설정을 위한 드랍다운 추가해줘 -->
       <!-- 한국어, 영어, 일본어, 중국어 -->
       <select id="languageDropdown">
@@ -37,7 +37,7 @@
       </select>
       <br>
       <button id="startARButton" onclick="StartAR()" style="visibility: hidden">확인하기</button>
-      <p id="errorGuide" style="text-align: center; width:min(60vw, 60vh); color: red; visibility: hidden;">카메라 실행 오류입니다.<br>다른 카메라가 켜져있는지 확인해 주세요.</p>
+      <p id="errorGuide" style="text-align: center; width:min(60vw, 60vh); color: red; visibility: hidden;">카메라 실행 오류입니다. 다른 카메라가 켜져있는지 확인해 주세요. </p>
     </div>
     <div id="screenshotDiv" style="visibility: hidden; opacity: 0;" class="ctaDiv">
         <div style="position:relative; background-color:#2c2b2f; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25); border-radius: max(1.5vh, 1.5vw); text-align: center; overflow: hidden; line-height: 0">
@@ -110,19 +110,19 @@
 
             switch (lang) {
               case 'ko':
-                errorGuide.textContent = '카메라 실행 오류입니다.<br>다른 카메라가 켜져있는지 확인해 주세요.<br>' + err.message;
+                errorGuide.textContent = '카메라 실행 오류입니다. 다른 카메라가 켜져있는지 확인해 주세요. ' + err.message;
                 break;
               case 'en':
-                errorGuide.textContent = 'Camera access error.<br>Please check if another camera is in use.<br>' + err.message;
+                errorGuide.textContent = 'Camera access error. Please check if another camera is in use. ' + err.message;
                 break;
               case 'ja':
-                errorGuide.textContent = 'カメラの実行エラーです。<br>他のカメラがオンになっているか確認してください。<br>' + err.message;
+                errorGuide.textContent = 'カメラの実行エラーです。 他のカメラがオンになっているか確認してください。 ' + err.message;
                 break;
               case 'zh':
-                errorGuide.textContent = '相机执行错误。<br>请检查是否有其他相机正在使用。<br>' + err.message;
+                errorGuide.textContent = '相机执行错误。 请检查是否有其他相机正在使用。 ' + err.message;
                 break;
               default:
-                errorGuide.textContent = '카메라 실행 오류입니다.<br>다른 카메라가 켜져있는지 확인해 주세요.';
+                errorGuide.textContent = '카메라 실행 오류입니다. 다른 카메라가 켜져있는지 확인해 주세요.';
             }
           });
       }
@@ -149,19 +149,19 @@
         var guideText = document.getElementById('guideText');
         switch (newLang) {
           case 'ko':
-            guideText.textContent = '이 증강현실 경험은 기기의 카메라와<br>모션 센서 권한을 필요로 합니다.';
+            guideText.textContent = '이 증강현실 경험은 기기의 카메라와 모션 센서 권한을 필요로 합니다.';
             break;
           case 'en':
-            guideText.textContent = 'This AR experience requires camera and<br>motion sensor permissions.';
+            guideText.textContent = 'This AR experience requires camera and motion sensor permissions.';
             break;
           case 'ja':
-            guideText.textContent = 'このAR体験にはカメラと<br>モーションセンサーの権限が必要です。';
+            guideText.textContent = 'このAR体験にはカメラとモーションセンサーの権限が必要です。';
             break;
           case 'zh':
             guideText.textContent = '此增强现实体验需要相机和运动传感器权限。';
             break;
           default:
-            guideText.textContent = '이 증강현실 경험은 기기의 카메라와<br>모션 센서 권한을 필요로 합니다.';
+            guideText.textContent = '이 증강현실 경험은 기기의 카메라와 모션 센서 권한을 필요로 합니다.';
         }
 
         var startARButton = document.getElementById('startARButton');
@@ -188,10 +188,10 @@
             screenshotHint.textContent = '스크린샷을 꾸욱 누르면 이미지 다운로드 가능';
             break;
           case 'en':
-            screenshotHint.textContent = 'Press and hold to save or<br>share this screenshot';
+            screenshotHint.textContent = 'Press and hold to save or share this screenshot';
             break;
           case 'ja':
-            screenshotHint.textContent = 'スクリーンショットを長押しして<br>保存または共有できます';
+            screenshotHint.textContent = 'スクリーンショットを長押しして保存または共有できます';
             break;
           case 'zh':
             screenshotHint.textContent = '长按屏幕截图以保存或分享';
