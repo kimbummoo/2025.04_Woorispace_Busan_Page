@@ -311,6 +311,19 @@
             if(!window.camPermissionsGranted) {
               RequestWebcam();
             }
+
+            // 유니티 실행 후 WebCam 설정
+            document.addEventListener("visibilitychange", function() {
+              console.log("Visibility changed: " + document.visibilityState);
+              if (document.visibilityState === "visible") {
+                // 페이지가 보일 때 WebCam을 시작하도록 설정
+                StartWebcam();
+              } else {
+                // 페이지가 숨겨질 때 WebCam을 중지하도록 설정
+                StopWebcam();
+              }
+            });
+
           }).catch((message) => {
             alert(message);
           });
