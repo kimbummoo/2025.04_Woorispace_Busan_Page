@@ -92,24 +92,6 @@
         }
       }
 
-      // 카메라 초기화를 위해 재시작후 3초후 버튼 활성화
-      function enableStartARButton() {
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then(function(stream) {
-            // 권한이 허용되면 스트림을 사용
-            console.log("Camera permission granted");
-            // 3초 후에 AR 시작 버튼 보이기
-            setTimeout(() => {
-              stream.getTracks().forEach(track => track.stop());
-              document.getElementById("startARButton").style.visibility = "visible";
-            }, 5000);
-          })
-          .catch(function(err) {
-            // 권한이 거부되면 에러 처리
-            console.error("Camera permission denied:", err);
-          });
-      }
-
       // 처음 시작시 카메라 권한 요청
       function requestCameraPermission() {
         navigator.mediaDevices.getUserMedia({ video: true })
@@ -117,10 +99,10 @@
             // 권한이 허용되면 스트림을 사용
             console.log("Camera permission granted");
 
-            // 0.5초 후에 AR 시작 버튼 보이기
+            // 대기 후에 AR 시작 버튼 보이기
             setTimeout(() => {
               stream.getTracks().forEach(track => track.stop());
-              enableStartARButton();
+              document.getElementById("startARButton").style.visibility = "visible";
             }, 1000);
           })
           .catch(function(err) {
