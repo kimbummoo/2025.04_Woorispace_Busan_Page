@@ -80,8 +80,16 @@
     <script>
       // 파라미터 없으면 기본 ko로 설정
       var urlParams = new URLSearchParams(window.location.search);
-      var lang = urlParams.get('lang') || 'ko'; // 기본값은 한국어
+      // 쿠키 에서 언어 설정 가져오기
+      var decodeCookie = decodeURIComponent(document.cookie);
+      var cookies = decodeCookie.split(';');
+      var langCookie = cookies.find(cookie => cookie.trim().startsWith('lang='));
+      var defaultlang = (langCookie) ? langCookie.split('=')[1] : 'ko';
+      console.log("Default language from cookie: " + defaultlang);
+      
+      var lang = urlParams.get('lang') || defaultlang;
       setLanguage(lang);
+
       // option에 따라 selected 설정
       var languageDropdown = document.getElementById('languageDropdown');
       var options = languageDropdown.options;
@@ -126,6 +134,14 @@
         var url = new URL(window.location.href);
         url.searchParams.set('lang', newLang);
         window.history.pushState({}, '', url.toString());
+
+        // 쿠키에 언어 설정 저장
+        let date = new Date();
+        let days = 7; // 쿠키 유효기간 7일로 설정
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + date.toUTCString();
+        document.cookie = "lang=" + newLang + "; " + expires + "; path=/;"; // 1년 동안 유효
+        console.log("cookie set: lang=" + newLang);
 
         // 언어설정에 따른 UI 업데이트
 
