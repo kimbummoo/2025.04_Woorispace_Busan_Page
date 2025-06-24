@@ -186,22 +186,23 @@
         var screenshotHint = document.getElementById('screenshotHint');
         switch (newLang) {
           case 'ko':
-            screenshotHint.style.fontSize = '16PX';
+            screenshotHint.style.fontSize = '15PX';
             screenshotHint.textContent = '스크린샷을 꾸욱 누르면 이미지 다운로드 가능';
             break;
           case 'en':
-            screenshotHint.style.fontSize = '16PX';
+            screenshotHint.style.fontSize = '13PX';
             screenshotHint.textContent = 'Press and hold to save or share this screenshot';
             break;
           case 'ja':
-            screenshotHint.style.fontSize = '14PX';
+            screenshotHint.style.fontSize = '11X';
             screenshotHint.textContent = 'スクリーンショットを長押しして保存または共有できます';
             break;
           case 'zh':
-            screenshotHint.style.fontSize = '16PX';
+            screenshotHint.style.fontSize = '15PX';
             screenshotHint.textContent = '长按屏幕截图以保存或分享';
             break;
           default:
+            screenshotHint.style.fontSize = '15PX';
             screenshotHint.textContent = '스크린샷을 꾸욱 누르면 이미지 다운로드 가능';
         }
       }
