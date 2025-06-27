@@ -165,7 +165,6 @@
         }
 
         var startARButton = document.getElementById('startARButton');
-        autoFitOneLine(document.getElementById('screenshotHint'));
         switch (newLang) {
           case 'ko':
             startARButton.textContent = '확인하기';
@@ -206,29 +205,6 @@
             screenshotHint.textContent = '스크린샷을 꾸욱 누르면 이미지 다운로드 가능';
         }
       }
-
-      
-      /* 최소·최대 크기를 초단위로 조정할 수 있게 매개변수화 */
-      function autoFitOneLine(el, min = 8, max = 60){
-        const parentW = el.parentElement.clientWidth;
-        let size = max;
-      
-        /* 1) 글자 크기를 최대값으로 적용 */
-        el.style.fontSize = size + 'px';
-      
-        /* 2) 너무 길면 0.5px씩 줄여가며 한 줄에 들어갈 때까지 반복 */
-        while (el.scrollWidth > parentW && size > min){
-          size -= 0.5;
-          el.style.fontSize = size + 'px';
-        }
-      }
-
-      /* ------------- 최초 실행 & 리사이즈 대응 ------------- */
-      const screenshotHint = document.getElementById('screenshotHint');
-      autoFitOneLine(screenshotHint);                 // 첫 로드
-      window.addEventListener('resize', () =>         // 화면 회전·창 크기 변화
-        autoFitOneLine(screenshotHint)
-      );
 
       // Disable double-tap to zoom
       document.addEventListener('touchstart', function (event) {
@@ -278,6 +254,11 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var warningBanner = document.querySelector("#unity-warning");
 
+      canvas.addEventListener('webglcontextlost', (e)=>{
+        e.preventDefault();   // Safari는 자동 복구 안 됨. 자체 리로드 트리거
+        location.reload();
+      });
+
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
       // If type=='warning', a yellow highlight color is used.
@@ -317,9 +298,9 @@
         var buildUrl = "Build";
         var loaderUrl = buildUrl + "/Page.loader.js";
         var config = {
-          dataUrl: buildUrl + "/Page.data.unityweb",
-          frameworkUrl: buildUrl + "/Page.framework.js.unityweb",
-          codeUrl: buildUrl + "/Page.wasm.unityweb",
+          dataUrl: buildUrl + "/Page.data",
+          frameworkUrl: buildUrl + "/Page.framework.js",
+          codeUrl: buildUrl + "/Page.wasm",
           streamingAssetsUrl: "StreamingAssets",
           companyName: "FutureVision",
           productName: "PlaygroundQR",
@@ -388,7 +369,7 @@
       window.WEBCAM_SETTINGS = {
           video: {
               facingMode: unityFacingMode,    
-              // width:  { ideal: 1920 },                // 또는 { exact: 1920 } 로 강제
+              width:  { ideal: 1280 },                // 또는 { exact: 1920 } 로 강제
               // height: { ideal: 1080 },
           },
           audio: false
